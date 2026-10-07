@@ -1,0 +1,188 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "odin: build debug",
+            "type": "process",
+            "command": "odin",
+            "args": [
+                "build",
+                "src",
+                "-out:build/debug/espionage.exe",
+                "-collection:src=src",
+                "-debug",
+                "-o:none"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "dependsOn": "mkdir: debug",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": {
+                "owner": "odin",
+                "fileLocation": "absolute",
+                "pattern": {
+                    "regexp": "^(.+)[(]([0-9]+):([0-9]+)[)] +(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "message": 4
+                }
+            }
+        },
+        {
+            "label": "odin: build release",
+            "type": "process",
+            "command": "odin",
+            "args": [
+                "build",
+                "src",
+                "-out:build/release/espionage.exe",
+                "-collection:src=src",
+                "-debug",
+                "-o:speed"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "dependsOn": "mkdir: release",
+            "group": "build",
+            "problemMatcher": {
+                "owner": "odin",
+                "fileLocation": "absolute",
+                "pattern": {
+                    "regexp": "^(.+)[(]([0-9]+):([0-9]+)[)] +(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "message": 4
+                }
+            }
+        },
+        {
+            "label": "odin: build retail",
+            "type": "process",
+            "command": "odin",
+            "args": [
+                "build",
+                "src",
+                "-out:build/retail/espionage.exe",
+                "-collection:src=src",
+                "-o:aggressive",
+                "-no-bounds-check",
+                "-disable-assert",
+                "-subsystem:windows"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "dependsOn": "mkdir: retail",
+            "group": "build",
+            "problemMatcher": {
+                "owner": "odin",
+                "fileLocation": "absolute",
+                "pattern": {
+                    "regexp": "^(.+)[(]([0-9]+):([0-9]+)[)] +(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "message": 4
+                }
+            }
+        },
+        {
+            "label": "odin: run debug",
+            "type": "process",
+            "command": "${workspaceFolder}/build/debug/espionage.exe",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "dependsOn": "odin: build debug",
+            "problemMatcher": []
+        },
+        {
+            "label": "odin: run release",
+            "type": "process",
+            "command": "${workspaceFolder}/build/release/espionage.exe",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "dependsOn": "odin: build release",
+            "problemMatcher": []
+        },
+        {
+            "label": "odin: run retail",
+            "type": "process",
+            "command": "${workspaceFolder}/build/retail/espionage.exe",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "dependsOn": "odin: build retail",
+            "problemMatcher": []
+        },
+        {
+            "label": "odin: clean",
+            "type": "process",
+            "command": "nu",
+            "args": [
+                "-c",
+                "if ('build' | path exists) { rm -rf build }"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "mkdir: debug",
+            "type": "process",
+            "command": "nu",
+            "args": [
+                "-c",
+                "mkdir build/debug"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "mkdir: release",
+            "type": "process",
+            "command": "nu",
+            "args": [
+                "-c",
+                "mkdir build/release"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "mkdir: retail",
+            "type": "process",
+            "command": "nu",
+            "args": [
+                "-c",
+                "mkdir build/retail"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": []
+        }
+    ]
+}
